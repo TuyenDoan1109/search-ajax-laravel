@@ -63,28 +63,25 @@
             
         </div>
     </div>
+
     <script type="text/javascript">
-    $(document).ready(function(){
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            
+            $('#search').keyup(function() {
+                var search = $('#search').val().trim();
+                if(search != "") {
+                    $.get("{{ URL::to('search') }}",{search:search}, function(data) {
+                        $('#memList').empty().html(data);
+                        $('#result').show();
+                    })
+                }
+            });
         });
-        
-        $('#search').keyup(function(){
-            var search = $('#search').val();
-            if(search==""){
-                $("#memList").html("");
-                $('#result').hide();
-            }
-            else{
-                $.get("{{ URL::to('search') }}",{search:search}, function(data){
-                    $('#memList').empty().html(data);
-                    $('#result').show();
-                })
-            }
-        });
-    });
     </script>
 </body>
 </html>

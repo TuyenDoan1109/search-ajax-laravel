@@ -5,7 +5,9 @@
         <h2>Search Results</h2>
         <ul class="list-group">
             @foreach($members as $member)
-                <li class="list-group-item"><a href="{{ url('member/'.$member->id) }}">{{ $member->firstname }} {{ $member->lastname }}</a></li>
+                <li class="list-group-item">
+                    <a href="{{ url('member/'.$member->id) }}">{{ $member->firstname }} {{ $member->lastname }} - {{ $member->address }}</a>
+                </li>
             @endforeach
         </ul>
     @else

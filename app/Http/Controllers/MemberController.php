@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
  
 use Illuminate\Http\Request;
 use App\Models\Member;
+use DB;
  
 class MemberController extends Controller
 {
@@ -15,10 +16,9 @@ class MemberController extends Controller
     public function search(Request $request){
         $search = $request->input('search');
   
-        $members = Member::where('firstname', 'like', "%$search%")
-           ->orWhere('lastname', 'like', "%$search%")
-           ->get();
-  
+        $members = Member::whereRaw("CONCAT(firstname, ' ', lastname, ' ', address) like '%{$search}%'")
+        ->orWhereRaw("CONCAT(lastname, ' ', firstname, ' ', address) like '%{$search}%'")
+        ->get();
         return view('result')->with('members', $members);
     }
   
@@ -30,10 +30,9 @@ class MemberController extends Controller
     public function find(Request $request){
         $search = $request->input('search');
   
-        $members = Member::where('firstname', 'like', "%$search%")
-           ->orWhere('lastname', 'like', "%$search%")
-           ->get();
-  
+        $members = Member::whereRaw("CONCAT(firstname, ' ', lastname, ' ', address) like '%{$search}%'")
+        ->orWhereRaw("CONCAT(lastname, ' ', firstname, ' ', address) like '%{$search}%'")
+        ->get();
         return view('searchresult')->with('members', $members);
     }
 }
